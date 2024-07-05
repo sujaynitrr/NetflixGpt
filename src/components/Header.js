@@ -7,6 +7,7 @@ import { addUser, removeUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logo } from "../utils/constant";
+import { addShowToggle } from "../utils/gptSearchSlice";
 const Header = () => {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -45,6 +46,10 @@ const Header = () => {
 
   },[]);
 
+  const onClickHandler=()=>{
+    dispatch(addShowToggle());
+  }
+
 
 
   return (
@@ -61,6 +66,10 @@ const Header = () => {
           user &&
           <div className="flex">
             <div>
+              
+            <button onClick={onClickHandler} className="py-2 px-4 bg-purple-500 text-white rounded-lg">Search GPT</button>
+            </div>
+            <div className="flex p-3">
               <img className="w-12 h-12 "
                 src="https://occ-0-6245-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABTZ2zlLdBVC05fsd2YQAR43J6vB1NAUBOOrxt7oaFATxMhtdzlNZ846H3D8TZzooe2-FT853YVYs8p001KVFYopWi4D4NXM.png?r=229"
                 alt="logo"

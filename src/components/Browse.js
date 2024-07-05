@@ -1,17 +1,29 @@
+import { useSelector } from "react-redux";
 import useNowPlayingMovies from "../Hooks/useNowPlayingMovies";
+import usePopularMovies from "../Hooks/usePopularMovies";
 import Header from "./Header";
 import MainContainer from "./MainContainer";
+import SearchGpt from "./SearchgGpt";
 import SecondaryContainer from "./SecondaryContainer";
 
 const Browse = () => {
-  const nowPlayMovies = useNowPlayingMovies()
-  console.log(nowPlayMovies,"nowPlayMovies");
+  useNowPlayingMovies();
+  usePopularMovies();
+  const isToggleShow= useSelector((store)=>store.gptSearch.isToggleShow);
+  console.log(isToggleShow,"isToggleShow");
+
   
   return (
     <div>
       <Header />
-      <MainContainer/>
-      <SecondaryContainer/>
+      {
+        isToggleShow?<SearchGpt/>:(
+          <>
+            <MainContainer/>
+            <SecondaryContainer/>
+          </>
+        )
+      }
     </div>
   );
 };

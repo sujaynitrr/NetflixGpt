@@ -12,8 +12,6 @@ const useMoviesTrailer=(movieId)=>{
         const trailer = filterData.length ? filterData[0]:movieData.results[0];
         dispatch(addTrailer(trailer))
 
-        console.log(trailer?.key,"trailer");
-        console.log(filterData, "filterData");
     }
 
     useEffect(() => {
