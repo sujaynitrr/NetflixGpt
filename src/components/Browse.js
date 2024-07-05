@@ -10,7 +10,6 @@ const Browse = () => {
   useNowPlayingMovies();
   usePopularMovies();
   const isToggleShow= useSelector((store)=>store.gptSearch.isToggleShow);
-  console.log(isToggleShow,"isToggleShow");
 
   
   return (

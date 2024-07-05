@@ -6,14 +6,16 @@ import { onAuthStateChanged } from "firebase/auth";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logo } from "../utils/constant";
+import { SUPPORT_LANGUAGES, logo } from "../utils/constant";
 import { addShowToggle } from "../utils/gptSearchSlice";
+import { changeLanguage } from "../utils/configSlice";
 const Header = () => {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
- 
-  
+  const isToggleShow = useSelector((store)=>store.gptSearch.isToggleShow);
+
+
   const signOutHandler = () => {
     //navigate("/")
     signOut(auth).then(() => {
@@ -25,8 +27,8 @@ const Header = () => {
 
   }
 
-   useEffect(() => {
-   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { email, uid, displayName } = user;
         dispatch(
@@ -42,12 +44,16 @@ const Header = () => {
         navigate("/")
       }
     });
-    return ()=> unsubscribe;
+    return () => unsubscribe;
 
-  },[]);
+  }, []);
 
-  const onClickHandler=()=>{
+  const onClickHandler = () => {
     dispatch(addShowToggle());
+  }
+
+  const languageChangeHandler=(e)=>{
+    dispatch(changeLanguage(e.target.value))
   }
 
 
@@ -65,9 +71,17 @@ const Header = () => {
         {
           user &&
           <div className="flex">
+            {
+              isToggleShow &&
+              <select onChange={languageChangeHandler}>
+              {SUPPORT_LANGUAGES.map((lang)=> <option  key ={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
+             
+            </select>
+            }
+           
+            
             <div>
-              
-            <button onClick={onClickHandler} className="py-2 px-4 bg-purple-500 text-white rounded-lg">Search GPT</button>
+              <button onClick={onClickHandler} className="py-2 px-4 bg-purple-500 text-white rounded-lg">{isToggleShow?"Home":"SearchGpt"}</button>
             </div>
             <div className="flex p-3">
               <img className="w-12 h-12 "
@@ -75,9 +89,9 @@ const Header = () => {
                 alt="logo"
               />
               <div>
-                   <button onClick={signOutHandler} className="font-bold text-white">(Sign out)</button>
+                <button onClick={signOutHandler} className="font-bold text-white">(Sign out)</button>
               </div>
-             
+
             </div>
             <div>
             </div>

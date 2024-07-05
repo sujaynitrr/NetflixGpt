@@ -2,7 +2,6 @@ import React from 'react'
 import MovieCard from './MovieCard'
 
 function MovieList({ title, movieType }) {
-    console.log(title, movieType, "title", "movies");
     return (
         movieType &&(
             <div className='px-6 bg-black'>
